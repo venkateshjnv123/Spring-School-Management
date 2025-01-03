@@ -12,6 +12,6 @@ import lombok.*;
 @Document(collection = "subjects")
 public class Subject{
 @Id
-private ObjectId id;
+private String id;
 private String name;
 }

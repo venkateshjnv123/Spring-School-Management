@@ -19,7 +19,7 @@ import lombok.*;
 @Document(collection = "students")
 public class Student {
     @Id
-    private ObjectId id;
+    private String id;
     private String name;
     private String rollNumber;
     private String className;

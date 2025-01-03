@@ -11,8 +11,8 @@ import org.springframework.data.repository.query.Param;
 import com.seroter.school_management.models.Student;
 import com.seroter.school_management.utils.House;
 
-public interface StudentRepository extends MongoRepository<Student, ObjectId> {
-    Optional<Student> findById(@Param("id") ObjectId id);
+public interface StudentRepository extends MongoRepository<Student, String> {
+    Optional<Student> findById(@Param("id") String id);
     
     List<Student> findByHouse(House house);
     

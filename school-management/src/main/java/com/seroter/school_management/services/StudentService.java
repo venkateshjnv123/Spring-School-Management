@@ -25,7 +25,7 @@ public class StudentService {
         return student;
     }
 
-    public Student enrollToSubject(ObjectId studentId, String subjectId) {
+    public Student enrollToSubject(String studentId, String subjectId) {
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new RuntimeException("Student not found"));
 
@@ -50,7 +50,7 @@ public class StudentService {
         return studentRepository.findByIsSeated(isSeated);
     }
 
-    public Optional<Student> findStudentById(ObjectId id) {
+    public Optional<Student> findStudentById(String id) {
         return studentRepository.findById(id);
     }
 
@@ -66,7 +66,7 @@ public class StudentService {
         return studentRepository.findByHouseAndClassName(house, className);
     }
 
-    public Student addScore(ObjectId studentId, String subjectId, Integer score) {
+    public Student addScore(String studentId, String subjectId, Integer score) {
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new RuntimeException("Student not found"));
 

@@ -18,6 +18,7 @@ import com.seroter.school_management.utils.House;
 
 @RestController
 @RequestMapping("/student")
+@CrossOrigin
 public class StudentController {
     @Autowired
     StudentService studentService;
@@ -34,7 +35,7 @@ public class StudentController {
     }
 
     @PostMapping("/{id}/enroll")
-    public ResponseEntity<Student> enrollToSubject(@PathVariable("id") ObjectId id, @RequestBody SubjectsDTO subjectsDTO) {
+    public ResponseEntity<Student> enrollToSubject(@PathVariable("id") String id, @RequestBody SubjectsDTO subjectsDTO) {
         Student newStud = studentService.enrollToSubject(id, subjectsDTO.getSubjectId());
         return new ResponseEntity<>(newStud,HttpStatus.CREATED);
     }
@@ -45,14 +46,14 @@ public class StudentController {
     }
 
     @PutMapping("/{id}/add-score")
-    public Student addScore(@PathVariable("id") ObjectId id, @RequestBody ScoresDTO scoresDTO) {
+    public Student addScore(@PathVariable("id") String id, @RequestBody ScoresDTO scoresDTO) {
         String subjectId = scoresDTO.getSubjectId();
         Integer score = scoresDTO.getScore();
         return studentService.addScore(id, subjectId, score);
     }
 
     @GetMapping("/{id}")
-    public Student getStudentById(@PathVariable("id") ObjectId id){
+    public Student getStudentById(@PathVariable("id") String id){
         System.out.println(id);
         return studentService.findStudentById(id).orElse(null);
     }

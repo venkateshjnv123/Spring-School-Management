@@ -12,8 +12,10 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SeatingArrangementDTO {
-    private String studentId; 
+    private String studentId;
     private String classId;
+    private String className;
     private int row;
     private int column;
+    private boolean isSeated;
 }
