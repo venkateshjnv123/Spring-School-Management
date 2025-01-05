@@ -78,4 +78,8 @@ public class SeatingArragementService {
     public void deleteSeatingArrangement(String studentId, String classId) {
         seatingArrangementRepository.deleteByStudentIdAndClassId(studentId, classId);
     }
+
+    public void deleteSeating(String seatingId){
+        seatingArrangementRepository.deleteById(seatingId);
+    }
 }

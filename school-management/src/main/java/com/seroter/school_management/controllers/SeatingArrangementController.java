@@ -39,5 +39,10 @@ public class SeatingArrangementController {
         seatingArrangementService.deleteSeatingArrangement(studentId, classId);
         return "Deletion Successfuly";
     }
-    
+
+    @DeleteMapping("/{seatingId}")
+    public String deleteSeating(@PathVariable("seatingId") String seatingId){
+        seatingArrangementService.deleteSeating(seatingId);
+        return "Deletion Successful";
+    }
 }

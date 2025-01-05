@@ -2,6 +2,7 @@ package com.seroter.school_management.controllers;
 
 import java.util.List;
 
+import com.seroter.school_management.dto.ClassroomDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

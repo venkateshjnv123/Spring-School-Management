@@ -1,9 +1,6 @@
 package com.seroter.school_management.services;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +44,11 @@ public class StudentService {
     }
 
     public List<Student> findStudentNotSeated(boolean isSeated){
-        return studentRepository.findByIsSeated(isSeated);
+        return studentRepository.findStudentsByIsSeated(isSeated);
+    }
+
+    public List<Student> searchStudentsByName(String name) {
+        return studentRepository.findByNameContainingIgnoreCase(name);
     }
 
     public Optional<Student> findStudentById(String id) {
@@ -81,4 +82,7 @@ public class StudentService {
         return studentRepository.save(student);
     }
 
+    public Student findByUserName(String userName){
+        return studentRepository.findByUserName(userName);
+    }
 }

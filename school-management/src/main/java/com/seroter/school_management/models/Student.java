@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.seroter.school_management.utils.House;
@@ -23,8 +24,12 @@ public class Student {
     private String name;
     private String rollNumber;
     private String className;
-    private House house; 
+    private House house;
     private List<String> subjectIds;
     private boolean isSeated;
     private Map<String, Integer> scores;
+    @Indexed(unique = true)
+    @NonNull
+    private String userName;
+    private String role;
 }
