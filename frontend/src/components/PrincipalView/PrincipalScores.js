@@ -5,14 +5,6 @@ import { useLocation, useNavigate, Link } from 'react-router-dom';
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 
-const subjectName = {
-  "67782a2fa9f6e259968df436": "english",
-  "67782a36a9f6e259968df437": "maths",
-  "67782a3ba9f6e259968df438": "science",
-  "67782a42a9f6e259968df439": "social",
-  "67782a47a9f6e259968df43a": "hindi"
-};
-
 const PrincipalScores = () => {
   const { studentId } = useParams();
   const [student, setStudent] = useState(null);
@@ -55,7 +47,7 @@ const PrincipalScores = () => {
 
         setStudent(studentResponse.data);
         setScores(studentResponse?.data?.scores || {});
-        setSeatAllocation(seatResponse.data[0]); // Assuming the first element contains the data
+        setSeatAllocation(seatResponse.data[0]);
         setSubjects(subjectsResponse.data);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -87,7 +79,7 @@ const PrincipalScores = () => {
         Authorization: `Bearer ${token}`
       };
       const response = await axios.put(
-        `${process.env.REACT_APP_API_URL}/student/${state?.studentId}/add-score`, // URL
+        `${process.env.REACT_APP_API_URL}/student/${state?.studentId}/add-score`,
         data,
         {
           headers: headers,
@@ -101,7 +93,7 @@ const PrincipalScores = () => {
   };
 
   const renderSeatGrid = () => {
-    const rows = 5; // Example grid dimensions
+    const rows = 5;
     const columns = 5;
     const grid = [];
 
@@ -113,10 +105,9 @@ const PrincipalScores = () => {
         rowItems.push(
           <div
             key={`${row}-${column}`}
-            className={`w-12 h-12 flex items-center justify-center border ${
-                isAllocated
-                  ? "bg-green-500 text-white"
-                  : "bg-transparent border-gray-500 hover:bg-gray-700 text-gray-300"
+            className={`w-12 h-12 flex items-center justify-center border ${isAllocated
+                ? "bg-green-500 text-white"
+                : "bg-transparent border-gray-500 hover:bg-gray-700 text-gray-300"
               }`}
           >
             {isAllocated ? "Seat" : ""}

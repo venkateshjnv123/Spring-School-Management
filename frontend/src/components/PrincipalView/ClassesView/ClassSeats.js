@@ -15,7 +15,28 @@ const ClassesSeat = () => {
   const [popupVisible, setPopupVisible] = useState(false);
   const [className, setClassName] = useState("");
   const [detailsPopupVisible, setDetailsPopupVisible] = useState(false);
+  const [searchText, setSearchText] = useState("");
 
+  const filteredStudents = studentsNo.filter((student) =>
+    student.name.toLowerCase().includes(searchText.toLowerCase())
+  );
+
+  const studentsNotSeated = async (token) => {
+    try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_API_URL}/student/getNotSeatedStudents/false`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return response;
+    }
+    catch (Error) {
+      toast.error("Error fetching details sign in again")
+    }
+  }
 
   useEffect(() => {
     const fetchInitialData = async () => {
@@ -42,19 +63,10 @@ const ClassesSeat = () => {
         setStudents(studentsResponse.data);
 
 
-        const studentsResponseNotSeated = await axios.get(
-          `${process.env.REACT_APP_API_URL}/student/getNotSeatedStudents/false`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        const studentsResponseNotSeated = await studentsNotSeated();
         setStudentsNo(studentsResponseNotSeated.data);
 
-
-        // Assuming className comes from API
-        setClassName("Class A"); // Replace this with actual data
+        setClassName("Class A");
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -72,13 +84,11 @@ const ClassesSeat = () => {
         alert("Invalid student selection.");
         return;
       }
-
-      // Validation: No two students in the same class can sit in the same row or column
       const sameClassConflict = seatAllocation.some(
         (seat) =>
           (seat.row === row || seat.column === column) &&
           students.find((s) => s.id === seat.studentId)?.className ===
-            selectedStudentDetails.className
+          selectedStudentDetails.className
       );
 
       if (sameClassConflict) {
@@ -87,8 +97,6 @@ const ClassesSeat = () => {
         );
         return;
       }
-
-      // Validation: No two students in the same house can be adjacent
       const adjacentSeats = [
         { row: row - 1, column }, // Above
         { row: row + 1, column }, // Below
@@ -106,7 +114,7 @@ const ClassesSeat = () => {
             seat.row === adjacent.row &&
             seat.column === adjacent.column &&
             students.find((s) => s.id === seat.studentId)?.house ===
-              selectedStudentDetails.house
+            selectedStudentDetails.house
         )
       );
 
@@ -119,7 +127,7 @@ const ClassesSeat = () => {
 
       const token = Cookies.get("authToken");
       const response = await axios.post(
-        `http://localhost:8080/class/postSeating/${state.classId}`,
+        `${process.env.REACT_APP_API_URL}/class/postSeating/${state.classId}`,
         {
           studentId,
           classId: state.classId,
@@ -141,17 +149,18 @@ const ClassesSeat = () => {
         ]);
         setPopupVisible(false);
         setSelectedSeat(null);
+        setStudentsNo(await studentsNotSeated(token));
       }
     } catch (error) {
       console.error("Error allocating seat:", error);
-      toast.error("Failed to allocate seat. Please try again.");
+      toast.error("Failed to allocate seat. Please Sign in again.");
     }
   };
 
   const deleteSeatAllocation = async (seatingId) => {
     try {
       const token = Cookies.get("authToken");
-      const response = await axios.delete(`http://localhost:8080/class/${seatingId}`, {
+      const response = await axios.delete(`${process.env.REACT_APP_API_URL}/class/${seatingId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -170,7 +179,7 @@ const ClassesSeat = () => {
   const handleSeatClick = (row, column, isAllocated) => {
     if (isAllocated) {
       console.log(isAllocated);
-      
+
       setSelectedSeat(isAllocated);
       setDetailsPopupVisible(true);
     } else {
@@ -188,17 +197,16 @@ const ClassesSeat = () => {
         {Array.from({ length: rows * columns }, (_, index) => {
           const row = Math.floor(index / columns) + 1;
           const column = (index % columns) + 1;
-          const isAllocated =  seatAllocation.find(item => item.row === row && item.column === column) || null;
+          const isAllocated = seatAllocation.find(item => item.row === row && item.column === column) || null;
 
           return (
             <button
               key={index}
               onClick={() => handleSeatClick(row, column, isAllocated)}
-              className={`w-12 h-12 flex items-center justify-center border ${
-                isAllocated
+              className={`w-12 h-12 flex items-center justify-center border ${isAllocated
                   ? "bg-green-500 text-white"
                   : "bg-transparent border-gray-500 hover:bg-gray-700 text-gray-300"
-              }`}
+                }`}
             >
               {isAllocated ? "✔" : `${row}-${column}`}
             </button>
@@ -223,6 +231,7 @@ const ClassesSeat = () => {
             className="w-full p-2 border rounded-lg mb-4 bg-gray-700 text-white"
             value={selectedStudent}
             onChange={(e) => setSelectedStudent(e.target.value)}
+            style={{ maxHeight: "200px", overflowY: "auto" }}
           >
             <option value="" disabled>
               Select a student
@@ -301,7 +310,7 @@ const ClassesSeat = () => {
 
   return (
     <div className="p-6 bg-gray-900 text-white min-h-screen">
-            <button><Link to='/principal' className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-red-600 transition duration-200">Home</Link></button>
+      <button><Link to='/principal' className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-red-600 transition duration-200">Home</Link></button>
 
       <h1 className="text-3xl font-bold text-center text-blue-400 mb-6">
         Class Seat Allocation

@@ -50,7 +50,7 @@ const StudentDashboard = () => {
 
   const handleLogout = () => {
     Cookies.remove("authToken");
-    navigate("/login");
+    navigate("/");
   };
 
   const handleSubjectEnrollment = (e) => {
@@ -96,9 +96,8 @@ const StudentDashboard = () => {
         rowItems.push(
           <div
             key={`${row}-${column}`}
-            className={`w-12 h-12 flex items-center justify-center border border-gray-700 ${
-              isAllocated ? "bg-green-500 text-white" : "bg-gray-800 text-gray-400"
-            }`}
+            className={`w-12 h-12 flex items-center justify-center border border-gray-700 ${isAllocated ? "bg-green-500 text-white" : "bg-gray-800 text-gray-400"
+              }`}
           >
             {isAllocated ? "You" : ""}
           </div>

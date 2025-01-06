@@ -2,7 +2,7 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import StudentDashboard from './components/StudentsDashboard';
+import StudentDashboard from './components/Student/StudentsDashboard';
 import PrincipalStudentsPage from './components/PrincipalView/PrincipalStudentView';
 import Classes from './components/PrincipalView/ClassesView/Classes';
 import ClassSeats from './components/PrincipalView/ClassesView/ClassSeats';

@@ -6,7 +6,6 @@ import Cookies from "js-cookie";
 const PrincipalStudentsPage = () => {
   const [students, setStudents] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const [filteredStudents, setFilteredStudents] = useState([]);
   const navigate = useNavigate();
   const [debouncedQuery, setDebouncedQuery] = useState(""); 
   useEffect(() => {

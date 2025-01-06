@@ -27,7 +27,7 @@ const Classes = () => {
 
   return (
     <div className="p-6 bg-gray-900 text-white min-h-screen">
-            <button><Link to='/principal' className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-red-600 transition duration-200">Home</Link></button>
+      <button><Link to='/principal' className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-red-600 transition duration-200">Home</Link></button>
       <h1 className="text-3xl font-bold text-center text-blue-400 mb-6">Classes</h1>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {classes.map((classroom) => (

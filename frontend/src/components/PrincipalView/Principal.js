@@ -7,7 +7,7 @@ const PrincipalDashboard = () => {
 
   const handleLogout = () => {
     Cookies.remove("authToken");
-    navigate("/login");
+    navigate("/");
   };
 
   const handleNavigation = (path) => {
