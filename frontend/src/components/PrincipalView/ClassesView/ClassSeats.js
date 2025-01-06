@@ -41,7 +41,9 @@ const ClassesSeat = () => {
   useEffect(() => {
     const fetchInitialData = async () => {
       try {
-        const token = Cookies.get("authToken");
+        // const token = Cookies.get("authToken");
+        const token = localStorage.getItem("authToken");
+
         const seatResponse = await axios.get(
           `${process.env.REACT_APP_API_URL}/class/${state.classId}`,
           {
@@ -125,7 +127,9 @@ const ClassesSeat = () => {
         return;
       }
 
-      const token = Cookies.get("authToken");
+      // const token = Cookies.get("authToken");
+      const token = localStorage.getItem("authToken");
+
       const response = await axios.post(
         `${process.env.REACT_APP_API_URL}/class/postSeating/${state.classId}`,
         {
@@ -159,7 +163,8 @@ const ClassesSeat = () => {
 
   const deleteSeatAllocation = async (seatingId) => {
     try {
-      const token = Cookies.get("authToken");
+      // const token = Cookies.get("authToken");
+      const token = localStorage.getItem("authToken");
       const response = await axios.delete(`${process.env.REACT_APP_API_URL}/class/${seatingId}`, {
         headers: {
           Authorization: `Bearer ${token}`,

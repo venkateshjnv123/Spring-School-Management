@@ -18,7 +18,9 @@ const StudentDashboard = () => {
   useEffect(() => {
     const fetchStudentData = async () => {
       try {
-        const token = Cookies.get("authToken");
+        // const token = Cookies.get("authToken");
+        const token = localStorage.getItem("authToken");
+
 
         const studentResponse = await axios.get(`${process.env.REACT_APP_API_URL}/student/${state?.studentId}`, {
           headers: {
@@ -50,6 +52,7 @@ const StudentDashboard = () => {
 
   const handleLogout = () => {
     Cookies.remove("authToken");
+localStorage.removeItem("authToken");
     navigate("/");
   };
 
@@ -58,7 +61,8 @@ const StudentDashboard = () => {
   };
 
   const handleSubjectEnrollmentSave = async () => {
-    const token = Cookies.get("authToken");
+    // const token = Cookies.get("authToken");
+    const token = localStorage.getItem("authToken");
     if (selectedSubject == null || student?.subjectIds?.includes(selectedSubject)) {
       toast.error("Already enrolled");
     } else {

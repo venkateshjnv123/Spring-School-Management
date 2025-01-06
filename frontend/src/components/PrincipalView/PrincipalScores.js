@@ -19,7 +19,8 @@ const PrincipalScores = () => {
   useEffect(() => {
     const fetchStudentData = async () => {
       try {
-        const token = Cookies.get("authToken");
+        // const token = Cookies.get("authToken");
+        const token = localStorage.getItem("authToken");
 
         const studentPromise = axios.get(`${process.env.REACT_APP_API_URL}/student/${state?.studentId}`, {
           headers: {
@@ -67,7 +68,9 @@ const PrincipalScores = () => {
   };
 
   const handleSaveScores = async (subjectId) => {
-    const token = Cookies.get("authToken");
+    // const token = Cookies.get("authToken");
+    const token = localStorage.getItem("authToken");
+
     console.log(scores);
 
     try {

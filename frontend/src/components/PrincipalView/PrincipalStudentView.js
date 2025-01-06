@@ -21,7 +21,9 @@ const PrincipalStudentsPage = () => {
   useEffect(() => {
     const fetchStudents = async () => {
       try {
-        const token = Cookies.get("authToken");
+        // const token = Cookies.get("authToken");
+        const token = localStorage.getItem("authToken");
+
         const response = await axios.get(`${process.env.REACT_APP_API_URL}/student/search`, {
           params: { name: debouncedQuery },
           headers: {

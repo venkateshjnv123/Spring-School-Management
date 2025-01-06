@@ -10,7 +10,8 @@ const Classes = () => {
   useEffect(() => {
     const fetchClasses = async () => {
       try {
-        const token = Cookies.get("authToken");
+        // const token = Cookies.get("authToken");
+        const token = localStorage.getItem("authToken");
         const response = await axios.get(`${process.env.REACT_APP_API_URL}/classroom`, {
           headers: {
             Authorization: `Bearer ${token}`,

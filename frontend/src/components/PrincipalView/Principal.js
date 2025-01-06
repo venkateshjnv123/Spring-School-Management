@@ -6,7 +6,8 @@ const PrincipalDashboard = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    Cookies.remove("authToken");
+    // Cookies.remove("authToken");
+    localStorage.removeItem("authToken");
     navigate("/");
   };
 
