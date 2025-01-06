@@ -48,6 +48,16 @@ const PrincipalDashboard = () => {
               View and manage student details, classes, and performance.
             </p>
           </div>
+
+          <div
+            onClick={() => handleNavigation("/fuzzySearch")}
+            className="cursor-pointer bg-gray-800 p-6 rounded-lg shadow-lg hover:shadow-xl hover:scale-105 transition-transform"
+          >
+            <h2 className="text-xl font-bold mb-4">Fuzzy Search Logic</h2>
+            <p className="text-gray-400">
+              Try fuzzy search with a difference of two
+            </p>
+          </div>
         </div>
       </div>
     </div>

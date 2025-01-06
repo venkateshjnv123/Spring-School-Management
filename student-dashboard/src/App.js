@@ -11,6 +11,7 @@ import Register from './components/Authentication/Register';
 import PrincipalDashboard from './components/PrincipalView/Principal';
 import PrincipalScores from './components/PrincipalView/PrincipalScores';
 import { ToastContainer, toast } from 'react-toastify';
+import PrincipalFuzzy from './components/PrincipalView/PrincipalFuzzySearch';
 
 
 function App() {
@@ -19,7 +20,7 @@ function App() {
       <ToastContainer/>
     <div className="min-h-screen bg-gray-100">
       <Routes>
-      <Route path="/login" element={<Login />} />
+      <Route path="/" element={<Login />} />
       <Route path="/register" element={<Register />} />
         <Route path="/student-dashboard" element={<StudentDashboard />} />
         <Route path="/class" element={<Classes />} />
@@ -27,6 +28,7 @@ function App() {
         <Route path="/students" element={<PrincipalStudentsPage />} />
         <Route path='/principal' element={<PrincipalDashboard/>} />
         <Route path='/principal/scores' element={<PrincipalScores/>} />
+        <Route path='/fuzzySearch' element={<PrincipalFuzzy/>} />
       </Routes>
     </div>
   </Router>

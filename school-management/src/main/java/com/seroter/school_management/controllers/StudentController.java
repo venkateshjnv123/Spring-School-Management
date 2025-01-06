@@ -3,6 +3,7 @@ package com.seroter.school_management.controllers;
 import java.util.List;
 import java.util.Optional;
 
+import com.seroter.school_management.dto.ResponseDTO;
 import com.seroter.school_management.dto.ScoresDTO;
 import com.seroter.school_management.dto.SubjectsDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,9 @@ public class StudentController {
 
     @GetMapping("/search")
     public ResponseEntity<List<Student>> searchStudents(@RequestParam String name) {
-        System.out.println(name);
+        if (name == null || name.trim().isEmpty()) {
+            return ResponseEntity.ok(studentService.getAllStudents());
+        }
         List<Student> students = studentService.searchStudentsByName(name);
         return ResponseEntity.ok(students);
     }
@@ -60,6 +63,11 @@ public class StudentController {
     @GetMapping("/{id}")
     public Optional<Student> getStudentById(@PathVariable("id") String id){
         return studentService.findStudentById(id);
+    }
+
+    @GetMapping("/userName/{userName}")
+    public Optional<Student> getStudentByUserName(@PathVariable("userName") String userName){
+        return Optional.ofNullable(studentService.findByUserName(userName));
     }
 
     @GetMapping("/house/{house}")

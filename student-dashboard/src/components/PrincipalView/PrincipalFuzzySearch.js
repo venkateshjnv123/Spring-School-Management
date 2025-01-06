@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import Cookies from "js-cookie";
 
-const PrincipalStudentsPage = () => {
+const PrincipalFuzzy = () => {
   const [students, setStudents] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredStudents, setFilteredStudents] = useState([]);
@@ -23,12 +23,13 @@ const PrincipalStudentsPage = () => {
     const fetchStudents = async () => {
       try {
         const token = Cookies.get("authToken");
-        const response = await axios.get(`${process.env.REACT_APP_API_URL}/student/search`, {
-          params: { name: debouncedQuery },
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });        
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/search/students?query=${debouncedQuery}`,
+            {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+              }
+        );
         setStudents(response.data);
       } catch (error) {
         console.error("Error fetching students:", error);
@@ -38,14 +39,9 @@ const PrincipalStudentsPage = () => {
     fetchStudents();
   }, [debouncedQuery]);
 
-
   const handleSearch = (e) => {
-   setSearchQuery(e.target.value);
-  };
-
-  const handleStudentClick = (studentId) => {
-    navigate(`/principal/scores`, { state: { studentId: studentId } });
-  };
+setSearchQuery(e.target.value);
+  }
 
   return (
     <div className="min-h-screen bg-gray-800 text-gray-200 p-6">
@@ -57,7 +53,7 @@ const PrincipalStudentsPage = () => {
         <input
           type="text"
           value={searchQuery}
-          onChange={handleSearch}
+          onChange={(e) => handleSearch(e)}
           placeholder="Search students by name"
           className="w-full p-3 border border-gray-600 rounded-md bg-gray-700 text-gray-200 placeholder-gray-400 shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-500"
         />
@@ -67,12 +63,11 @@ const PrincipalStudentsPage = () => {
           <div
             key={student.id}
             className="bg-gray-700 border border-gray-600 shadow-md rounded-lg p-4 hover:shadow-lg cursor-pointer"
-            onClick={() => handleStudentClick(student.id)}
           >
-            <h2 className="text-lg font-bold text-gray-100">{student.name}</h2>
-            <p className="text-gray-300">Roll Number: {student.rollNumber}</p>
-            <p className="text-gray-300">Class: {student.className}</p>
-            <p className="text-gray-300">House: {student.house}</p>
+            <h2 className="text-lg font-bold text-gray-100">{student.name[0]}</h2>
+            <p className="text-gray-300">Roll Number: {student.rollNumber[0]}</p>
+            <p className="text-gray-300">Class: {student.className[0]}</p>
+            <p className="text-gray-300">House: {student.house[0]}</p>
           </div>
         ))}
       </div>
@@ -80,4 +75,4 @@ const PrincipalStudentsPage = () => {
   );
 };
 
-export default PrincipalStudentsPage;
+export default PrincipalFuzzy;

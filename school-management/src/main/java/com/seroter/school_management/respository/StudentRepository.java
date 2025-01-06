@@ -22,7 +22,6 @@ public interface StudentRepository extends MongoRepository<Student, String> {
     List<Student> findByClassName(String className);
 
     List<Student> findStudentsByIsSeated(boolean isSeated);
-    
     @Query("{'house': ?0, 'className': ?1}")
     List<Student> findByHouseAndClassName(House house, String className);
     
