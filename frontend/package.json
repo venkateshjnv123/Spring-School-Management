@@ -1,7 +1,6 @@
 {
   "name": "student-dashboard",
   "version": "0.1.0",
-  "proxy": "http://13.203.157.101:8080",
   "private": true,
   "dependencies": {
     "axios": "^1.7.9",

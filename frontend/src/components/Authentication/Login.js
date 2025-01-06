@@ -23,7 +23,7 @@ const Login = () => {
 
       // Store the token in cookies
       Cookies.set("authToken", token, { expires: 7, secure: true });
-      localStorage.setItem("token", token);
+      localStorage.setItem("authToken", token);
 
       if (role === "student") {
         navigate("/student-dashboard", { state: { studentId: student?.id } });
