@@ -34,21 +34,28 @@ const ClassesSeat = () => {
     }
   }
 
+  const seatResponse = async(token) => {
+try {
+  const response = await axios.get(
+    `${process.env.REACT_APP_API_URL}/class/${state.classId}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return response?.data || [];
+} catch (error) {
+  toast.error("Error in fetching details");
+}
+  }
   useEffect(() => {
     const fetchInitialData = async () => {
       try {
         // const token = Cookies.get("authToken");
         const token = localStorage.getItem("authToken");
 
-        const seatResponse = await axios.get(
-          `${process.env.REACT_APP_API_URL}/class/${state.classId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        setSeatAllocation(seatResponse.data);
+        setSeatAllocation(await seatResponse(token));
 
         const studentsResponse = await axios.get(
           `${process.env.REACT_APP_API_URL}/student`,
@@ -144,13 +151,10 @@ const ClassesSeat = () => {
 
       if (response.status === 200) {
         toast.success("Seat allocated successfully!");
-        setSeatAllocation((prev) => [
-          ...prev,
-          { row, column, studentId, house: selectedStudentDetails.house },
-        ]);
+        setSeatAllocation(await seatResponse(token));
         setPopupVisible(false);
         setSelectedSeat(null);
-        setSelectedSeat(null);
+        setSelectedStudent(null);
         setStudentsNo(await studentsNotSeated(token));
       }
     } catch (error) {
@@ -173,10 +177,10 @@ const ClassesSeat = () => {
 
       if (response.status === 200) {
         toast.success("Seat allocation deleted successfully!");
-        setSeatAllocation((prev) => prev.filter((seat) => seat.id !== seatingId));
+        setSeatAllocation(await seatResponse(token));
         setDetailsPopupVisible(false);
         setSelectedSeat(null);
-        setSelectedSeat(null);
+        setSelectedStudent(null);
         setStudentsNo(await studentsNotSeated(token));
       }
     } catch (error) {
