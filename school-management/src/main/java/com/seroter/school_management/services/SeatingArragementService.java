@@ -75,8 +75,12 @@ public class SeatingArragementService {
         return seatingArrangement;
     }
 
-    public void deleteSeatingArrangement(String studentId, String classId) {
-        seatingArrangementRepository.deleteByStudentIdAndClassId(studentId, classId);
+    public void deleteSeatingArrangement(String studentId, String seatingId) {
+        Student student = studentRepository.findById(studentId).orElseThrow(() -> new RuntimeException("Student not found"));
+        student.setSeated(false);
+        studentRepository.save(student);
+
+        seatingArrangementRepository.deleteById(seatingId);
     }
 
     public void deleteSeating(String seatingId){

@@ -34,10 +34,10 @@ public class SeatingArrangementController {
         return seatingArrangementService.postSeatingArrangement(studentId, classId, seatingArrangementDTO.getRow(), seatingArrangementDTO.getColumn());
     }
 
-    @DeleteMapping("/{classId}/student/{studentId}")
-    public String deleteSeatingArrangement(@PathVariable("classId") String classId, @PathVariable("studentId") String studentId) {
-        seatingArrangementService.deleteSeatingArrangement(studentId, classId);
-        return "Deletion Successfuly";
+    @DeleteMapping("/{seatingId}/student/{studentId}")
+    public String deleteSeatingArrangement(@PathVariable("seatingId") String seatingId, @PathVariable("studentId") String studentId) {
+        seatingArrangementService.deleteSeatingArrangement(studentId, seatingId);
+        return "Deletion Successfully";
     }
 
     @DeleteMapping("/{seatingId}")
