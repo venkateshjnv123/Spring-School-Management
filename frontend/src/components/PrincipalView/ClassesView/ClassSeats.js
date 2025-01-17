@@ -17,10 +17,6 @@ const ClassesSeat = () => {
   const [detailsPopupVisible, setDetailsPopupVisible] = useState(false);
   const [searchText, setSearchText] = useState("");
 
-  const filteredStudents = studentsNo.filter((student) =>
-    student.name.toLowerCase().includes(searchText.toLowerCase())
-  );
-
   const studentsNotSeated = async (token) => {
     try {
       const response = await axios.get(
@@ -31,7 +27,7 @@ const ClassesSeat = () => {
           },
         }
       );
-      return response;
+      return response?.data || [];
     }
     catch (Error) {
       toast.error("Error fetching details sign in again")
@@ -65,8 +61,8 @@ const ClassesSeat = () => {
         setStudents(studentsResponse.data);
 
 
-        const studentsResponseNotSeated = await studentsNotSeated();
-        setStudentsNo(studentsResponseNotSeated.data);
+        const studentsResponseNotSeated = await studentsNotSeated(token);
+        setStudentsNo(studentsResponseNotSeated);
 
         setClassName("Class A");
       } catch (error) {
@@ -82,6 +78,7 @@ const ClassesSeat = () => {
       const selectedStudentDetails = students.find(
         (student) => student.id === studentId
       );
+      console.log(selectedStudentDetails);
       if (!selectedStudentDetails) {
         alert("Invalid student selection.");
         return;
@@ -153,6 +150,7 @@ const ClassesSeat = () => {
         ]);
         setPopupVisible(false);
         setSelectedSeat(null);
+        setSelectedSeat(null);
         setStudentsNo(await studentsNotSeated(token));
       }
     } catch (error) {
@@ -161,11 +159,13 @@ const ClassesSeat = () => {
     }
   };
 
-  const deleteSeatAllocation = async (seatingId) => {
+  const deleteSeatAllocation = async ({seatingId, studentId}) => {
     try {
+      console.log(seatingId);
+      
       // const token = Cookies.get("authToken");
       const token = localStorage.getItem("authToken");
-      const response = await axios.delete(`${process.env.REACT_APP_API_URL}/class/${seatingId}`, {
+      const response = await axios.delete(`${process.env.REACT_APP_API_URL}/class/${seatingId}/student/${studentId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -175,6 +175,9 @@ const ClassesSeat = () => {
         toast.success("Seat allocation deleted successfully!");
         setSeatAllocation((prev) => prev.filter((seat) => seat.id !== seatingId));
         setDetailsPopupVisible(false);
+        setSelectedSeat(null);
+        setSelectedSeat(null);
+        setStudentsNo(await studentsNotSeated(token));
       }
     } catch (error) {
       console.error("Error deleting seat allocation:", error);
@@ -184,7 +187,6 @@ const ClassesSeat = () => {
   const handleSeatClick = (row, column, isAllocated) => {
     if (isAllocated) {
       console.log(isAllocated);
-
       setSelectedSeat(isAllocated);
       setDetailsPopupVisible(true);
     } else {
@@ -297,7 +299,7 @@ const ClassesSeat = () => {
           <div className="flex justify-end space-x-4">
             <button
               className="bg-red-500 text-white px-4 py-2 rounded-lg"
-              onClick={() => deleteSeatAllocation(selectedSeat.id)}
+              onClick={() => selectedSeat && deleteSeatAllocation({seatingId: selectedSeat?.id, studentId: selectedSeat?.studentId})}
             >
               Delete Seat
             </button>
