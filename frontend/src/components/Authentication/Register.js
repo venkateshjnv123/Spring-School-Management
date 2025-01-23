@@ -18,8 +18,14 @@ const Register = () => {
         role: "student",
       });
 
+      const { role, student, token } = response.data;
+
+      // Store the token in cookies
+      // Cookies.set("authToken", token, { expires: 7, secure: true });
+      localStorage.setItem("authToken", token);
       toast.success("Registration successful. You can now log in.");
-      navigate("/student-dashboard", { state: { studentId: response?.id } });
+      navigate("/student-dashboard", { state: { studentId: student?.id } });
+      
     } catch (error) {
       if (error.response && error.response.status === 400) {
         toast.error(error.response.data.message);
